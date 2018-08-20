@@ -1,0 +1,198 @@
+import datetime
+try:
+  
+
+  book=[]  #books details
+  member=[]  #memebers details
+  b=[]   
+  bnamel=[]  #indicates the all books which are borrowed
+  bmem=[]   #indicates the all members who borrowed the books
+  library=[]  #stores the all books
+
+  class Books:
+    def __init__(self,bname,aut,pub_name,pub_date,edn,ctgr,rack_row,snap):
+      self.bname=bname
+      self.aut=aut
+      self.pub_name=pub_name
+      self.pub_date=pub_date
+      self.edn=edn
+      self.ctgr=ctgr
+      self.rack_row=rack_row
+      self.snap=snap
+      book.append((self.bname,self.aut,self.pub_name,self.pub_date,self.edn,self.ctgr,self.rack_row,self.snap))
+      library.append(self.bname,self.edn,self.ctgr)
+
+
+
+  class Member:
+    def __init__(self,memid,memname,dob,ads,city,As):
+      self.memid=memid
+      self.memname=memname
+      self.dob=dob
+      self.ads=ads
+      self.city=city
+      self.As=As
+      member.append((self.memid,self.memname,self.dob,self.ads,self.city,self.As))
+      
+
+
+  class Borrow(Member,Books):
+    def __init__(self,bbname,bmemid,issuedate,duedate,count):
+      self.bbname=bbname
+      self.bmemid=bmemid
+      self.issuedate=issuedate
+      self.duedate=duedate
+      self.count=count
+      bmem.append(self.bmemid)
+      bnamel.append(self.bbname)
+      b.append((self.bbname,self.bmemid,self.issuedate,self.duedate,self.count))
+
+  # class RtnBooks(Member,Books):
+  #   def __init__(self,bbname,mem,k):
+  #     self.bbname=bbname
+  #     self.mem=mem
+  #     self.k=k
+  #     if bbname in bnamel:
+  #       bnamel.remove(bbname)
+  #       bmem.remove(mem)
+
+
+      
+
+
+  class rqst(Member,Books):
+    def __init__(self):
+      pass 
+
+  #to add the book
+  def addbook():
+    bname=input('enter book name')
+    aut=input('enter the author')
+    pub_name=input('enter the publication name')
+    pub_date=input('enter the publication date (date-mon-year)')
+    # pub_date=datetime.datetime(l[2],l[1],l[0])
+    edn=int(input('enter the edition of the book'))
+    ctgr=input('enter the category of the book')
+    rack_row=input('enter the rack and row number')
+    snap=input('enter the snapdescription of the book')
+    Books(bname,aut,pub_name,pub_date,edn,ctgr,rack_row,snap)
+    library.append(bname)
+
+    #to add the member
+  def addmem():
+    user_option=input('enter a to add new one and b for cancel member ')
+    if user_option=='a':
+      memid=int(input('enter the member id'))
+      memname=input('enter the member name')
+      l=input('enter date of birth format(date-mon-year)').split('-')
+      dob=datetime.datetime(int(l[2]),int(l[1]),int(l[0]))
+      ads=input('enter address of the member')
+      city=input('enter the city of the member')
+      As=input('enter activev status')
+      Member(memid,memname,dob,ads,city,As)
+    else:
+      g=int(input('enter the id of the number'))
+      for i in member:
+          if g==i[0]:
+            member.remove(i)
+            break
+      else:
+        print('u entered the wrong id')
+  #borrowing the book
+  def borrow():
+    bbname=input('enter book name to borrow')
+    bmemid=int(input('enter the mem id'))
+    
+    issuedate=datetime.datetime.now()
+    duedate=issuedate+datetime.timedelta(days=20)
+    count=0
+    for i in member:
+      if bmemid==i[0]:
+        for j in book:
+          if bbname==j[0]:
+            count=count+1
+            
+            Borrow(bbname,bmemid,issuedate,duedate,count)
+             
+    else:
+      print('wrong credintials') 
+  # def rtnbook():
+  #   bbname=input('enter book name to retrun')
+  #   mem=int(input('enter the mem id'))
+  #   for i in b:
+  #     if bbname==i[0] and mem==i[1]:
+  #       duedate=i[3]
+  #       if duedate==(datetime.datetime.now()-datetime.datetime(i[3])):
+  #         print("no late fee")
+  #         k=0
+  #         RtnBooks(bbname,mem,k)
+  #         b.remove(i)
+  #       else:
+  #         duedate=(datetime.datetime.now()-datetime.datetime(i[3]))
+  #         k=int(duedate)*5
+  #         RtnBooks(bbname,mem,k)
+
+      
+      
+
+  def display():
+    print(book)  #all book details
+    print(member)  #all members details
+    print(b)
+    print(bnamel) #borrowed books
+    print(bmem)  #borrowed members
+    print(library) #all books in library
+  print( """"
+  a for the add a book
+  b for the add membership
+  c for the borrow a Book
+  d for the display the all details
+  """)
+  v=1
+  while(v):
+    user_option=input('enter the ur choice :')
+    if(user_option=='a'):
+      addbook()
+      v=True
+    elif(user_option=='b'):
+      addmem()
+      v=True
+  
+    elif(user_option=='d'):
+      display()
+    elif user_option=='c':
+      borrow()
+      k=True
+    # elif(user_option=='e'):
+    #   rtnbook()
+    #   k=True
+    else:
+      print('wrong option')
+      k=False
+    #   k=True
+   
+
+   
+except:
+  pass
+
+  
+# class Library:
+#   def __init__(self):
+#     pass
+# class Books(Library):
+#   def __init__(self):
+#     pass
+# class Member(Library):
+#   def __init__(self):
+#     pass
+# class Borrow(Member,Books):
+#   def __init__(self):
+#     pass
+# class rtnBooks(Member,Books):
+#   def __init__(self):
+#     pass
+
+# class rqst(Member,Books):
+#   def __init__(self):
+#     pass 
